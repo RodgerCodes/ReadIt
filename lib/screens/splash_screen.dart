@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:go_router/go_router.dart';
 import 'package:readit/Theme/colors.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -10,6 +11,17 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  void delay() async {
+    await Future.delayed(
+        const Duration(seconds: 2), () => {context.pushNamed("home")});
+  }
+
+  @override
+  void initState() {
+    delay();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
