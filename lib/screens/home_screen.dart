@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:readit/Theme/colors.dart';
+import 'package:readit/data/cubits/Book/book_cubit.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -11,6 +14,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
+    BlocProvider.of<BookCubit>(context).loadBooks();
     final size = MediaQuery.of(context).size;
     return Scaffold(
         body: Padding(
@@ -72,7 +76,65 @@ class _HomeScreenState extends State<HomeScreen> {
               //   ),
               // ),
             ],
-          )
+          ),
+          // books
+          BlocConsumer<BookCubit, BookState>(
+            listener: (context, state) {
+              // TODO: implement listener
+            },
+            builder: (context, state) {
+              if (state is LoadingBooksError) {
+                return Center(
+                  child: Text("An error occured"),
+                );
+              } else if (state is LoadingBooksSuccess) {
+                if (state.books.isEmpty) {
+                  return Column(
+                    children: [
+                      SizedBox(
+                        height: size.height * 0.3,
+                      ),
+                      const Text(
+                        "No Books available",
+                        style: TextStyle(
+                          fontSize: 18,
+                        ),
+                      ),
+                      SizedBox(
+                        height: size.height * 0.02,
+                      ),
+                      ElevatedButton(
+                        onPressed: () {
+                          print("loaded");
+                        },
+                        child: const Text(
+                          "Load Books",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                          ),
+                        ),
+                      ),
+                    ],
+                  );
+                } else {
+                  return const Center(
+                    child: Text("Books loaded"),
+                  );
+                }
+              } else {
+                return Container(
+                  margin: EdgeInsets.only(top: size.height * 0.1),
+                  child: Center(
+                    child: SpinKitFadingCircle(
+                      color: AppColors.loaderColor,
+                      size: 60,
+                    ),
+                  ),
+                );
+              }
+            },
+          ),
         ],
       ),
     ));
