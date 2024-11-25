@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:readit/Theme/colors.dart';
+import 'package:readit/data/book_manager.dart';
 import 'package:readit/data/cubits/Book/book_cubit.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -40,10 +43,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
               //     return null;
               //   },
-              //   // keyboardType: TextInputType.,
+
               //   enableSuggestions: true,
-              //   // maxLines: 2,
-              //   // controller: questionTitle,
+
               //   decoration: InputDecoration(
               //     isDense: true,
               //     hintText: "Search",
@@ -84,7 +86,7 @@ class _HomeScreenState extends State<HomeScreen> {
             },
             builder: (context, state) {
               if (state is LoadingBooksError) {
-                return Center(
+                return const Center(
                   child: Text("An error occured"),
                 );
               } else if (state is LoadingBooksSuccess) {
@@ -105,7 +107,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                       ElevatedButton(
                         onPressed: () {
-                          print("loaded");
+                          BookManager().saveDirectory();
                         },
                         child: const Text(
                           "Load Books",

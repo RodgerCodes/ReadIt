@@ -4,3 +4,7 @@ part of 'directory_cubit.dart';
 sealed class DirectoryState {}
 
 final class DirectoryInitial extends DirectoryState {}
+
+final class SelectingDirectory extends DirectoryState {}
+
+// final class SelectingDire

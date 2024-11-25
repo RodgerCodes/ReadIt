@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:file_selector/file_selector.dart';
 import 'package:readit/utils/helpers.dart';
 
 class BookManager {
@@ -23,5 +26,16 @@ class BookManager {
     }
   }
 
-  dynamic saveDirectory() async {}
+  dynamic saveDirectory() async {
+    try {
+      final String? directoryPath = await getDirectoryPath();
+      if (directoryPath != null) {
+        final Directory directory = Directory(directoryPath);
+        final List<FileSystemEntity> files = directory.listSync();
+        print(files);
+      } else {
+        print("No directory choosen");
+      }
+    } catch (err) {}
+  }
 }
