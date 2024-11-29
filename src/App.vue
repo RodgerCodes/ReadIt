@@ -1,5 +1,5 @@
 <template>
-  <div>Hello `Electron + Vite + Vue + TypeScript` World!</div>
+  <RouterView />
 </template>
 
 <script setup>
