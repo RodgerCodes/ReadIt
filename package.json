@@ -21,8 +21,10 @@
     "@electron-forge/plugin-fuses": "^7.6.0",
     "@electron-forge/plugin-vite": "^7.6.0",
     "@electron/fuses": "^1.8.0",
+    "@types/node": "^22.10.1",
     "@typescript-eslint/eslint-plugin": "^5.62.0",
     "@typescript-eslint/parser": "^5.62.0",
+    "@vitejs/plugin-vue": "^5.2.1",
     "electron": "33.2.0",
     "eslint": "^8.57.1",
     "eslint-plugin-import": "^2.31.0",
@@ -37,6 +39,8 @@
   },
   "license": "MIT",
   "dependencies": {
-    "electron-squirrel-startup": "^1.0.1"
+    "electron-squirrel-startup": "^1.0.1",
+    "vue": "^3.5.13",
+    "vue-router": "^4.5.0"
   }
 }
