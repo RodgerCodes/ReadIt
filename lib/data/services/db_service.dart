@@ -21,7 +21,7 @@ class DbService {
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       title TEXT,
       author TEXT,
-      cover TEXT,
+      cover BLOB,
       path TEXT
       )
       ''');
@@ -31,5 +31,16 @@ class DbService {
     final db = await database;
     final rows = await db.query('books');
     return rows.map(Book.fromMap).toList();
+  }
+
+  // save books
+  Future saveBook(Book book) async {
+    final db = await database;
+    return await db.insert('books', {
+      'path': book.path,
+      'title': book.title,
+      'author': book.author,
+      'cover': book.cover,
+    }, conflictAlgorithm: ConflictAlgorithm.replace);
   }
 }
