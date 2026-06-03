@@ -2,6 +2,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:go_router/go_router.dart';
 import 'package:readit/data/cubits/books/book_cubit_cubit.dart';
 import 'package:readit/data/cubits/preload/preload_cubit.dart';
 import 'package:readit/theme/colors.dart';
@@ -136,94 +137,106 @@ class _HomePageState extends State<HomePage> {
                       itemCount: state.books.length,
                       itemBuilder: (context, index) {
                         final book = state.books[index];
-                        return Container(
-                          clipBehavior: Clip.hardEdge,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black.withOpacity(0.3),
-                                blurRadius: 8,
-                                offset: const Offset(0, 4),
-                              ),
-                            ],
-                          ),
-                          child: Stack(
-                            fit: StackFit.expand,
-                            children: [
-                              // Cover image
-                              book.cover != null
-                                  ? Image.memory(
-                                      book.cover!,
-                                      fit: BoxFit.cover,
-                                      errorBuilder: (_, __, ___) => Container(
+                        return InkWell(
+                          onTap: () {
+                            context.goNamed(
+                              'view',
+                              pathParameters: {
+                                'path': Uri.encodeComponent(book.path),
+                              },
+                            );
+                          },
+                          child: Container(
+                            clipBehavior: Clip.hardEdge,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(0.3),
+                                  blurRadius: 8,
+                                  offset: const Offset(0, 4),
+                                ),
+                              ],
+                            ),
+                            child: Stack(
+                              fit: StackFit.expand,
+                              children: [
+                                // Cover image
+                                book.cover != null
+                                    ? Image.memory(
+                                        book.cover!,
+                                        fit: BoxFit.cover,
+                                        errorBuilder: (_, __, ___) => Container(
+                                          color: Colors.grey[900],
+                                          child: const Center(
+                                            child: Icon(
+                                              Icons.book,
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                        ),
+                                      )
+                                    : Container(
                                         color: Colors.grey[900],
                                         child: const Center(
                                           child: Icon(
                                             Icons.book,
+                                            size: 48,
                                             color: Colors.white,
                                           ),
                                         ),
                                       ),
-                                    )
-                                  : Container(
-                                      color: Colors.grey[900],
-                                      child: const Center(
-                                        child: Icon(
-                                          Icons.book,
-                                          size: 48,
-                                          color: Colors.white,
-                                        ),
+
+                                // Gradient overlay + text at bottom
+                                Positioned(
+                                  bottom: 0,
+                                  left: 0,
+                                  right: 0,
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      gradient: LinearGradient(
+                                        begin: Alignment.bottomCenter,
+                                        end: Alignment.topCenter,
+                                        colors: [
+                                          Colors.black.withOpacity(0.85),
+                                          Colors.transparent,
+                                        ],
                                       ),
                                     ),
-
-                              // Gradient overlay + text at bottom
-                              Positioned(
-                                bottom: 0,
-                                left: 0,
-                                right: 0,
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    gradient: LinearGradient(
-                                      begin: Alignment.bottomCenter,
-                                      end: Alignment.topCenter,
-                                      colors: [
-                                        Colors.black.withOpacity(0.85),
-                                        Colors.transparent,
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Text(
+                                          book.title ?? 'Unknown Title',
+                                          maxLines: 2,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: const TextStyle(
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 12,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                        const SizedBox(height: 2),
+                                        Text(
+                                          book.author ?? 'Unknown Author',
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: TextStyle(
+                                            fontSize: 10,
+                                            color: Colors.white.withOpacity(
+                                              0.7,
+                                            ),
+                                          ),
+                                        ),
                                       ],
                                     ),
                                   ),
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Text(
-                                        book.title ?? 'Unknown Title',
-                                        maxLines: 2,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: const TextStyle(
-                                          fontWeight: FontWeight.w600,
-                                          fontSize: 12,
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                      const SizedBox(height: 2),
-                                      Text(
-                                        book.author ?? 'Unknown Author',
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: TextStyle(
-                                          fontSize: 10,
-                                          color: Colors.white.withOpacity(0.7),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         );
                       },
