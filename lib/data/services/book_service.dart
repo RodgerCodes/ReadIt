@@ -57,12 +57,12 @@ class BookService {
           );
           cover = byteData?.buffer.asUint8List();
           pdfDoc.dispose();
-          books.add(
+          await DbService().saveBook(
             Book(path: file.path, title: title, author: author, cover: cover),
           );
         }
 
-        return {"error": false, "data": books};
+        return {"error": false, "message": "Done"};
       }
     } catch (err) {
       return {

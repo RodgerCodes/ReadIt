@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:path/path.dart';
 import 'package:readit/data/models/book.dart';
 import 'package:sqflite/sqflite.dart';
@@ -27,10 +29,19 @@ class DbService {
       ''');
   }
 
-  Future getBooks() async {
+  Future<List<Book>> getBooks() async {
     final db = await database;
     final rows = await db.query('books');
-    return rows.map(Book.fromMap).toList();
+    return rows.map((row) {
+      return Book(
+        path: row['path'] as String,
+        title: row['title'] as String?,
+        author: row['author'] as String?,
+        cover: row['cover'] != null
+            ? Uint8List.fromList(row['cover'] as List<int>)
+            : null,
+      );
+    }).toList();
   }
 
   // save books
