@@ -12,7 +12,7 @@ class BookCubitCubit extends Cubit<BookCubitState> {
   void loadBooks() {
     emit(FetchingAvailableBooks());
 
-    bookService.getAvailableBooksInDir().then((response) {
+    bookService.getCachedBooks().then((response) {
       if (response["error"]) {
         emit(
           FailedToGetAvailableBooks(

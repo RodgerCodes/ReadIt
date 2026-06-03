@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:typed_data';
 import 'dart:ui' as ui;
 import 'package:readit/data/models/book.dart';
+import 'package:readit/data/services/db_service.dart';
 import 'package:readit/utils/common.dart';
 import 'package:readit/utils/errors.dart';
 import 'package:pdf_render/pdf_render.dart' as pdf_render;
@@ -61,11 +62,23 @@ class BookService {
           );
         }
 
-
         return {"error": false, "data": books};
       }
     } catch (err) {
-     
+      return {
+        "error": true,
+        "type": ErrorTypes.generalError,
+        "message": "Error",
+      };
+    }
+  }
+
+  // get books
+  Future getCachedBooks() async {
+    try {
+      final books = await DbService().getBooks();
+      return {"error": false, "data": books};
+    } catch (err) {
       return {
         "error": true,
         "type": ErrorTypes.generalError,
