@@ -20,7 +20,6 @@ Future<void> main() async {
 
   runApp(
     MaterialApp.router(
-      theme: ThemeData(brightness: Brightness.dark),
       routerConfig: routerConfig,
       debugShowCheckedModeBanner: false,
     ),

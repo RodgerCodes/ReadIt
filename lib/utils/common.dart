@@ -9,3 +9,5 @@ Future<String?> getFilePath() async {
   final SharedPreferences prefs = await SharedPreferences.getInstance();
   return prefs.getString("storage_path");
 }
+
+// errors

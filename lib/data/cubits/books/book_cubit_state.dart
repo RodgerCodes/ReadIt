@@ -9,8 +9,9 @@ final class FetchingAvailableBooks extends BookCubitState {}
 
 final class FailedToGetAvailableBooks extends BookCubitState {
   final String message;
+  final ErrorTypes errorType;
 
-  FailedToGetAvailableBooks({required this.message});
+  FailedToGetAvailableBooks({required this.message, required this.errorType});
 }
 
 final class FetchedBooks extends BookCubitState {
