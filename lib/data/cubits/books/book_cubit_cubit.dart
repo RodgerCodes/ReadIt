@@ -21,7 +21,7 @@ class BookCubitCubit extends Cubit<BookCubitState> {
           ),
         );
       } else {
-        // emit(state)
+        emit(FetchedBooks(books: response["data"]));
       }
     });
   }
